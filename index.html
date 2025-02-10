@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Продажа скриптинга Roblox Studio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { opacity: 0; transition: opacity 0.5s ease-in-out; }
+        .fade-in { animation: fadeIn 0.5s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .star { cursor: pointer; font-size: 2rem; color: #ccc; }
+        .star.checked { color: gold; }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background-color: #1f2937; /* Темно-серый фон, как на основном сайте */
+            padding: 20px;
+            border-radius: 10px;
+            width: 300px;
+        }
+        #feedback-message, #feedback-name {
+            color: black; /* Сделано чёрным цветом для текста в полях ввода */
+        }
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            document.body.style.opacity = "1";
+
+            // Открытие модального окна для отзывов
+            const feedbackModal = document.getElementById("feedback-modal");
+            const feedbackForm = document.getElementById("feedback-form");
+            const closeFeedbackModal = document.getElementById("close-feedback-modal");
+
+            document.getElementById("discord-icon").addEventListener("click", function () {
+                window.open("https://discord.gg/sX2B97Us", "_blank");
+            });
+
+            // Открытие модального окна
+            document.getElementById("open-feedback-modal").addEventListener("click", function () {
+                feedbackModal.style.display = "flex";
+            });
+
+            // Закрытие модального окна
+            closeFeedbackModal.addEventListener("click", function () {
+                feedbackModal.style.display = "none";
+            });
+
+            // Закрытие модального окна при клике вне модального окна
+            window.addEventListener("click", function (event) {
+                if (event.target === feedbackModal) {
+                    feedbackModal.style.display = "none";
+                }
+            });
+
+            // Отправка отзыва через Discord вебхук
+            feedbackForm.addEventListener("submit", function (event) {
+                event.preventDefault();
+
+                const name = document.getElementById("feedback-name").value;
+                const message = document.getElementById("feedback-message").value;
+                const rating = document.getElementById("rating-value").value;
+
+                const webhookUrl = "https://discord.com/api/webhooks/1338108607660687360/uFVZYH_Q7Tv_iW01eKHHS3r-jzPavWufUgyiz7kQpULjzuQ58auwoJb0E5k5jhBvfSHM"; // Ваш вебхук URL
+
+                const payload = {
+                    content: `Отзыв от: ${name}\nСообщение: ${message}\nРейтинг: ${rating} звезды`
+                };
+
+                fetch(webhookUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                })
+                .then(response => {
+                    if (response.ok) {
+                        alert("Ваш отзыв отправлен!");
+                        document.getElementById("feedback-name").value = "";
+                        document.getElementById("feedback-message").value = "";
+                        feedbackModal.style.display = "none";
+                    } else {
+                        alert("Ошибка при отправке отзыва.");
+                    }
+                })
+                .catch(error => {
+                    alert("Ошибка при отправке отзыва.");
+                });
+            });
+
+            // Звезды для рейтинга
+            const stars = document.querySelectorAll(".star");
+            stars.forEach(star => {
+                star.addEventListener("click", function () {
+                    const rating = this.dataset.value;
+                    document.querySelectorAll(".star").forEach(star => {
+                        star.classList.remove("checked");
+                    });
+                    for (let i = 0; i < rating; i++) {
+                        stars[i].classList.add("checked");
+                    }
+                    document.getElementById("rating-value").value = rating; // Сохраняем рейтинг в hidden input
+                });
+            });
+        });
+    </script>
+</head>
+<body class="bg-gray-900 text-white relative">
+    <div class="container mx-auto p-6 fade-in">
+        <div class="flex justify-between items-center">
+            <h1 class="text-3xl font-bold">Продажа услуг скриптинга в Roblox Studio</h1>
+            <div class="relative cursor-pointer" id="discord-icon">
+                <img src="images/discord-icon.png" alt="Discord" class="w-10 h-10">
+            </div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mt-6 text-center">
+            <div class="bg-gray-800 p-4 rounded-lg transform transition duration-500 hover:scale-105 fade-in">
+                <img src="images/basic.png" alt="Обычный план" class="w-full h-48 object-contain rounded">
+                <h2 class="text-xl font-semibold">Обычный план</h2>
+                <p class="text-gray-400">Базовые скрипты.</p>
+                <p class="text-green-400">Скидка! <s class="text-red-500">400₽</s> 200₽</p>
+                <button class="mt-2 bg-blue-600 px-4 py-2 rounded" onclick="window.location.href='https://funpay.com/lots/offer?id=34486351'">Купить</button>
+            </div>
+            <div class="bg-gray-800 p-4 rounded-lg transform transition duration-500 hover:scale-105 fade-in">
+                <img src="images/premium.png" alt="Премиум план" class="w-full h-48 object-contain rounded">
+                <h2 class="text-xl font-semibold">Премиум план</h2>
+                <p class="text-gray-400">Расширенные скрипты.</p>
+                <p class="text-green-400">Скидка! <s class="text-red-500">800₽</s> 600₽</p>
+                <button class="mt-2 bg-blue-600 px-4 py-2 rounded" onclick="window.location.href='https://funpay.com/lots/offer?id=34486296'">Купить</button>
+            </div>
+            <div class="bg-gray-800 p-4 rounded-lg transform transition duration-500 hover:scale-105 fade-in">
+                <img src="images/luxury.png" alt="Люкс план" class="w-full h-48 object-contain rounded">
+                <h2 class="text-xl font-semibold">Люкс план</h2>
+                <p class="text-gray-400">Полный набор функций.</p>
+                <p class="text-green-400">Скидка! <s class="text-red-500">1200₽</s> 800₽</p>
+                <button class="mt-2 bg-blue-600 px-4 py-2 rounded" onclick="window.location.href='https://funpay.com/lots/offer?id=29392566'">Купить</button>
+            </div>
+            <!-- Новый план для диагностики игры -->
+            <div class="bg-gray-800 p-4 rounded-lg transform transition duration-500 hover:scale-105 fade-in">
+                <img src="images/diagnostics.png" alt="Диагностика игры" class="w-full h-48 object-contain rounded">
+                <h2 class="text-xl font-semibold">Диагностика игры</h2>
+                <p class="text-gray-400">Подробный анализ производительности и багов.</p>
+                <p class="text-green-400">100₽</p>
+                <button class="mt-2 bg-blue-600 px-4 py-2 rounded" onclick="window.location.href='https://funpay.com/lots/offer?id=38444013'">Купить</button>
+            </div>
+        </div>
+
+        <!-- Кнопка для открытия модального окна отзывов -->
+        <button id="open-feedback-modal" class="mt-6 bg-blue-600 px-4 py-2 rounded" type="button">Оставить отзыв</button>
+
+        <!-- Модальное окно для отзывов -->
+        <div id="feedback-modal" class="modal">
+            <div class="modal-content">
+                <span id="close-feedback-modal" class="cursor-pointer text-gray-500 text-xl absolute top-2 right-2">×</span>
+                <h2 class="text-2xl font-semibold mb-4">Оставить отзыв</h2>
+                <form id="feedback-form">
+                    <input type="text" id="feedback-name" placeholder="Ваше имя" class="w-full p-2 mb-4 border border-gray-600 rounded" required>
+                    <textarea id="feedback-message" placeholder="Ваш отзыв" class="w-full p-2 mb-4 border border-gray-600 rounded" required></textarea>
+                    
+                    <!-- Звезды для рейтинга -->
+                    <div class="mb-4">
+                        <span class="star" data-value="1">★</span>
+                        <span class="star" data-value="2">★</span>
+                        <span class="star" data-value="3">★</span>
+                        <span class="star" data-value="4">★</span>
+                        <span class="star" data-value="5">★</span>
+                    </div>
+                    <input type="hidden" id="rating-value" value="0">
+                    
+                    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Отправить</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="text-center text-gray-500 mt-6">© 2025 Защищено. Все транзакции защищены сервисом Funpay.</div>
+</body>
+</html>
